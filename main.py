@@ -4,7 +4,7 @@ import os
 import base64
 import json
 import requests
-from random import choice
+import random
 
 BASE_URL = 'https://discordapp.com/api/v7'
 IMAGES_DIR = './images/'
@@ -15,7 +15,7 @@ with open('config.json') as json_config:
 TOKEN = config.get('token')
 GUILD_ID = config.get('guild_id')
 
-image = choice(os.listdir(IMAGES_DIR))
+image = random.choice(os.listdir(IMAGES_DIR))
 _, image_ext = os.path.splitext(image)
 image_type = 'jpeg' if image_ext == '.jpg' else image_ext[1:]
 
@@ -32,6 +32,5 @@ headers = {
     'Content-Type': 'application/json'
 }
 
-# r = requests.patch(f'{BASE_URL}/guilds/{GUILD_ID}', data=json.dumps(payload), headers=headers)
-r = requests.get(f'{BASE_URL}/guilds/{GUILD_ID}', headers=headers)
+r = requests.patch(f'{BASE_URL}/guilds/{GUILD_ID}', data=json.dumps(payload), headers=headers)
 print(r.status_code)
