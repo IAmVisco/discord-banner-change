@@ -1,8 +1,9 @@
 #!/usr/bin/python
 
 import os
-import base64
+import sys
 import json
+import base64
 import requests
 import random
 
@@ -17,6 +18,10 @@ GUILD_ID = config.get('guild_id')
 
 image = random.choice(os.listdir(IMAGES_DIR))
 _, image_ext = os.path.splitext(image)
+
+if not image_ext:
+    sys.exit(1)
+
 image_type = 'jpeg' if image_ext == '.jpg' else image_ext[1:]
 
 with open(f'{IMAGES_DIR}{image}', 'rb') as image_file:
