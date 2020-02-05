@@ -33,15 +33,14 @@ with open('config.json') as json_config:
 TOKEN = config.get('token')
 GUILD_ID = config.get('guild_id')
 
-with open(POSTED_IMAGES_FILE, 'rb') as f:
-    try:
+try:
+    with open(POSTED_IMAGES_FILE, 'rb') as f:
         posted_images = pickle.load(f)
         if not posted_images or len(IMAGES) - 1 == len(posted_images):
             posted_images = []
-    except EOFError:
-        posted_images = []
+except (EOFError, FileNotFoundError):
+    posted_images = []
 
-print(posted_images)
 image, image_ext = get_random_image(posted_images)
 
 posted_images.append(image)
