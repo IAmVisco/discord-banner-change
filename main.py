@@ -1,23 +1,22 @@
 #!/usr/bin/python
 
 import os
-import sys
 import json
 import base64
 import pickle
 import requests
 import random
 
-
-BASE_URL = 'https://discordapp.com/api/v7'
+BASE_URL = 'https://discordapp.com/api/v9'
 IMAGES_DIR = './images/'
+ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png']
 POSTED_IMAGES_FILE = './posted_images.bin'
-IMAGES = os.listdir(IMAGES_DIR)
+IMAGES = [fn for fn in os.listdir(IMAGES_DIR) if any(fn.endswith(ext) for ext in ALLOWED_EXTENSIONS)]
 
 
 def get_random_image(posted_images):
     image = random.choice(IMAGES)
-    if not image in posted_images:
+    if image not in posted_images:
         _, image_ext = os.path.splitext(image)
 
         if not image_ext:
@@ -47,7 +46,6 @@ posted_images.append(image)
 
 with open(POSTED_IMAGES_FILE, 'wb') as f:
     pickle.dump(posted_images, f)
-
 
 image_type = 'jpeg' if image_ext == '.jpg' else image_ext[1:]
 
